@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using NHibernate.Engine;
 using NHibernate.Proxy.DynamicProxy;
 using NHibernate.Proxy.Poco;
@@ -33,7 +34,8 @@ namespace NHibernate.Proxy
 			}
 			catch (TargetInvocationException ex)
 			{
-				throw ReflectHelper.UnwrapTargetInvocationException(ex);
+				ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
+				throw;
 			}
 
 			return returnValue;
